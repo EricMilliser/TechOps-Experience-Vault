@@ -1,0 +1,23 @@
+Software Troubleshooting log June 3 2025
+
+# Issue: Obsidian Vault Lockup
+## **Symptoms:
+- App locking up shortly after boot
+## Diagnosis:
+- Hung background process from community plugin (Git)
+## Methodology:
+1. Identify problem - the software seems to lock up shortly after start up
+2. Theory of probable cause - Hung background process
+3. Testing theory 
+	1. Task manager shut down of app - didn't work
+	2. Reboot of computer - didn't work
+	3. Shutting down all community plugins - "operation aborted" message on shutdown of git
+4. Verifying results - Writing notes now just fine
+5. Preventative measures - check compatibility of excalidraw and related plugins with Git plugin
+6. Document - here :)
+## Reflection:
+- Plugin behavior for applications is booted shortly after start, coterminous with this lock-up
+- Plugin behavior persists even if there is a clear error or incompatibility (no file validation?)
+- Now aware about safe-mode boots for software, logging
+## Tags:
+#CompTIA #APlusPrep #APlusCore2 #SoftwareTroubleshooting #PluginFailure

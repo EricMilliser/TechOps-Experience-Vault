@@ -31,4 +31,3 @@ Extensive and most in-depth projects within my portfolio. Often reflect deepest 
 focused projects within my repos. Any project in this will have its own designated folder and a link to the correlated 
 repository in the description markdown.
 
-(Tier-J: See description inside for more details, this is not officially related to my work.)

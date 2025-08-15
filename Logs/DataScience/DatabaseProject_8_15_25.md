@@ -8,9 +8,9 @@ hardware to know what is good or not for classes, rather than simplifying it in 
 
 
 ## Key feature changes:
-> {COMPLETED}: Add ticketing capabilities in case I have reoccuring users. 
-> {COMPLETED}: Update database files to include various devices that I can run into
-> {MISSED}: Add the various classes of computers to the PC descriptions (ie gaming, consumer-grade, workstation, lab, university)
+> 1. {COMPLETED}: Add ticketing capabilities in case I have reoccuring users. 
+> 2. {COMPLETED}: Update database files to include various devices that I can run into
+> 3. {MISSED}: Add the various classes of computers to the PC descriptions (ie gaming, consumer-grade, workstation, lab, university)
 >> Note that this was intentional
 
 ## Further notes:

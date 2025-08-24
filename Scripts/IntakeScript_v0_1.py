@@ -23,32 +23,63 @@ cpufreq = psutil.cpu_freq() #cpu frequencies
 svmem = psutil.virtual_memory() #virtual memory
 swap = psutil.swap_memory() #swap total if exist
 
+# ORDER FOR THE CSV
+# 1. System
+# 2. Node
+# 3. Release
+# 4. version
+# 5. Machine
+# 6. Processor
+# 7. CPU Physical Corres
+# 8. CPU Logical Cores
+# 9. CPU max frequency
+# 10. CPU min frequency
+# 11. Virtual Memory Size
+# 12. Virtual Memory Open
+# 13. Virtual Memory Used
+# 14. Virtual Memory Percent
+# 15. Swap Memory Size
+# 16. Swap Memory Open
+# 17. Swap Memory Used
+# 18. Swap Memory Percent
+# 19. Storage device information
+# 20. Network information
+# 21. GPU information
 
-f.write(f"System: {platname.system},Node Name: {platname.node},Release: {platname.release},Version: {platname.version},Machine: {platname.machine},Processor: {platname.processor},Physical Cores: {psutil.cpu_count(logical=False)},Total Cores: {psutil.cpu_count(logical=True)},Max Frequency: {cpufreq.max:.2f}Mhz,Min Frequency: {cpufreq.min:.2f}Mhz,Virtual Memory Total: {get_size(svmem.total)},Virtual Memory Available: {get_size(svmem.available)},Virtual Memory Used: {get_size(svmem.used)},Virtual Memory Percentage: {svmem.percent}%,Swap Memory Total: {get_size(swap.total)},Swap Memory Free: {get_size(swap.free)},Swap Memory Used: {get_size(swap.used)},Swap Memory Percentage: {swap.percent}%,")
 
+
+# This is steps 1-18
+f.write(f"{platname.system},{platname.node},{platname.release},{platname.version},{platname.machine},{platname.processor},{psutil.cpu_count(logical=False)},{psutil.cpu_count(logical=True)},{cpufreq.max:.2f}Mhz,{cpufreq.min:.2f}Mhz,{get_size(svmem.total)},{get_size(svmem.available)},{get_size(svmem.used)},{svmem.percent}%,{get_size(swap.total)},{get_size(swap.free)},{get_size(swap.used)},{swap.percent}%,")
+
+
+# This is the information in step 19
 partitions = psutil.disk_partitions()
 
 for partition in partitions:
-    f.write(f"Storage Device: {partition.device},Mountpoint: {partition.mountpoint},File System Type: {partition.fstype},")
+    f.write(f"{partition.device},{partition.mountpoint},{partition.fstype},")
     try:
         partition_usage = psutil.disk_usage(partition.mountpoint)
     except PermissionError:
         continue
-    f.write(f"Total Size: {get_size(partition_usage.total)},Used: {get_size(partition_usage.used)},Free: {get_size(partition_usage.free)},Percentage: {partition_usage.percent}%,")
+    f.write(f"{get_size(partition_usage.total)},{get_size(partition_usage.used)},{get_size(partition_usage.free)},{partition_usage.percent}%,")
 
 disk_io = psutil.disk_io_counters()
-f.write(f"Total read: {get_size(disk_io.read_bytes)},Total write: {get_size(disk_io.write_bytes)},")
+f.write(f"{get_size(disk_io.read_bytes)},{get_size(disk_io.write_bytes)},")
 
+
+# This is the information in step 20
 if_addrs = psutil.net_if_addrs()
 
 for interface_name, interface_address in if_addrs.items():
     for address in interface_address:
-        f.write(f"Inferface: {interface_name},")
+        f.write(f"{interface_name},")
         if str(address.family) == 'AddressFamily.AF_INET':
-            f.write(f"IP Address: {address.address},Netmask {address.netmask},Broadcase IP: {address.broadcast},")
+            f.write(f"{address.address},{address.netmask},{address.broadcast},")
         elif str(address.family) == 'AddressFamily.AF_PACKET':
-            f.write(f"MAC Addres: {address.address},Netmask: {address.netmask}, Broadcast MAC: {address.broadcast},")
+            f.write(f"{address.address},{address.netmask},{address.broadcast},")
 
+
+# This is the information in Step 21
 gpus = GPUtil.getGPUS()
 
 for gpu in gpus:
@@ -56,4 +87,4 @@ for gpu in gpus:
     gpu_name = gpu.name
     gpu_total_memory =  f"{gpu.mnemoryUsed}MB"
     gpu_uuid = gpu.uuid
-    f.write(f"GPU ID: {gpu_id},GPU Name: {gpu_name},GPU Total Memory: {gpu_total_memory},GPU UUID: {gpu_uuid}")
+    f.write(f"{gpu_id},{gpu_name},{gpu_total_memory},{gpu_uuid}")
